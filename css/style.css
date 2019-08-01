@@ -1,0 +1,25 @@
+/* _Reset */
+body { margin: 0px; }
+
+ul {
+   padding: 0px;
+   margin: 0px;
+   list-style: none;
+}
+
+img {
+   display: block;
+   max-width: 100%;
+}
+/* _Slide Grid */
+.wrapper {
+   overflow: hidden;
+}
+
+.slide { display: flex; }
+.slide li {
+   margin: 0 20px;
+   flex-shrink: 0;
+   width: 80vw;
+   max-width: 800px;
+}
