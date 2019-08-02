@@ -8,7 +8,7 @@ export default class Slide {
       console.log(event);
    }
    addSlideEvents() {
-      this.wrapper.addEventListener('mouseon', this.onStart);
+      this.wrapper.addEventListener('mousedown', this.onStart);
    }
     init() {
       this.addSlideEvents();
