@@ -5,10 +5,10 @@ export default class Slide {
    }
    onStart(event) {
       event.preventDefault();
+      console.log(event);
    }
    addSlideEvents() {
       this.wrapper.addEventListener('mouseon', this.onStart);
-      console.log(event);
    }
     init() {
       this.addSlideEvents();
