@@ -58,8 +58,18 @@ export default class Slide {
       });
       console.log(this.slideArray);
    }
+   slideIndexNav(index) {
+      this.index = {
+         prev: index ? index - 1 : undefined,//0 returns false
+         active: index,
+         next: index === this.slideArray.length - 1 ? undefined : index + 1,//Works for any array size for next pag.
+      }
+   }
    changeSlide(index) {
-      this.moveSlide(this.slideArray[index].position);
+      const activeSlide = this.slideArray[index];
+      this.moveSlide(activeSlide.position);
+      this.slideIndexNav(index);
+      this.dist.finalPosition = activeSlide.position;//updates the position after changing
    }
    init() {
       this.bindingEvents()
