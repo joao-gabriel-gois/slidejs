@@ -3,3 +3,10 @@ import Slide from './slide.js';
 const slide = new Slide ('.slide', '.wrapper');
 console.log(slide);
 slide.init();
+/* Testing each slide display with a loop
+for (let i = 0; i < 6; i++) {
+   setTimeout(() => {
+      slide.changeSlide(i);
+   }, 1833 * i);
+}
+*/
