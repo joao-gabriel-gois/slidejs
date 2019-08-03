@@ -8,7 +8,7 @@ export default class Slide {
       this.dist.movePosition = distX;
       this.slide.style.transform = `translate3d(${distX}px,0px,0px)`;
    }
-   updatePosition(clientX) {s
+   updatePosition(clientX) {
       this.dist.movement = (this.dist.startX - clientX) * 1.45;
       return this.dist.finalPosition - this.dist.movement;
    }
@@ -49,7 +49,6 @@ export default class Slide {
    //Slide Configs
    slidePosition(slide) {//Fix the offset original position to put the current slide at the center of window
       const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
-      console.log(margin);
       return margin - slide.offsetLeft;
    }
    slidesConfig() {
@@ -101,5 +100,5 @@ _After this, events will wait for either a touchstar or a mousedown, and they oc
                         _event the current position that user has stopped. Basically, it resets for the next use cycle]
 
 _The only function that are not used yet in the flow is__
-changeSlides() 
+changeSlides() -> 
 */
