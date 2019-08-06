@@ -1,85 +1,83 @@
 export default class Slide {
-   constructor(sld, wpr) {
-      this.slide = document.querySelector(sld); 
-      this.wrapper = document.querySelector(wpr);
-      this.dist = { finalPosition: 0, startX: 0, movement: 0 };//movement parameters
-   }
-   moveSlide(distX) {
-      this.dist.movePosition = distX;
-      this.slide.style.transform = `translate3d(${distX}px,0px,0px)`;
-   }
-   updatePosition(clientX) {
-      this.dist.movement = (this.dist.startX - clientX) * 1.45;
-      return this.dist.finalPosition - this.dist.movement;
-   }
-   onStart(event) {
-      let movetype;
-      if (event.type === 'mousedown') {
-         event.preventDefault();
-         this.dist.startX = event.clientX;
-         movetype = 'mousemove';
-      } else {
-         this.dist.startX = event.changedTouches[0].clientX;
-         movetype = 'touchmove';
-      }
-      this.wrapper.addEventListener(movetype, this.onMove);
-   }
-   onMove() {
-      const pointerPosition = (event.type === 'mousemove') ? event.clientX : event.changedTouches[0].clientX;
-      const finalPosition = this.updatePosition(pointerPosition);
-      this.moveSlide(finalPosition);
-   }
-   onEnd() {
-      const movetype = (event.type === 'mouseup') ? 'mousemove' : 'touchmove';
-      this.wrapper.removeEventListener(movetype, this.onMove);
-      this.dist.finalPosition = this.dist.movePosition;
-   }
-   bindingEvents() {
-      this.onStart = this.onStart.bind(this);
-      this.onMove = this.onMove.bind(this);
-      this.onEnd = this.onEnd.bind(this);
-   }
-   addSlideEvents() {
-      this.wrapper.addEventListener('mousedown', this.onStart);
-      this.wrapper.addEventListener('touchstart', this.onStart);
-      this.wrapper.addEventListener('mouseup', this.onEnd);
-      this.wrapper.addEventListener('touchend', this.onEnd);
-   }
-
-   //Slide Configs
-   slidePosition(slide) {//Fix the offset original position to put the current slide at the center of window
-      const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
-      return margin - slide.offsetLeft;
-   }
-   slidesConfig() {
-      this.slideArray = [...this.slide.children].map((element) => {
-         const position = this.slidePosition(element);
-         return { element, position };
-      });
-      console.log(this.slideArray);
-   }
-   slideIndexNav(index) {
-      this.index = {
-         prev: index ? index - 1 : undefined,//0 returns false
-         active: index,
-         next: index === this.slideArray.length - 1 ? undefined : index + 1,//Works for any array size for next pag.
-      }
-   }
-   changeSlide(index) {
-      const activeSlide = this.slideArray[index];
-      this.moveSlide(activeSlide.position);
-      this.slideIndexNav(index);
-      this.dist.finalPosition = activeSlide.position;//updates the position after changing
-   }
-   init() {
-      this.bindingEvents()
-      this.addSlideEvents();
-      this.slidesConfig();
-      return this; 
+  constructor(sld, wpr) {
+    this.slide = document.querySelector(sld);
+    this.wrapper = document.querySelector(wpr);
+    this.dist = { finalPosition: 0, startX: 0, movement: 0 };// movement parameters
+  }
+  moveSlide(distX) {
+    this.dist.movePosition = distX;
+    this.slide.style.transform = `translate3d(${distX}px,0px,0px)`;
+  }
+  updatePosition(clientX) {
+    this.dist.movement = (this.dist.startX - clientX) * 1.45;
+    return this.dist.finalPosition - this.dist.movement;
+  }
+  onStart(event) {
+    let movetype;
+    if (event.type === 'mousedown') {
+      event.preventDefault();
+      this.dist.startX = event.clientX;
+      movetype = 'mousemove';
+    } else {
+      this.dist.startX = event.changedTouches[0].clientX;
+      movetype = 'touchmove';
     }
+    this.wrapper.addEventListener(movetype, this.onMove);
+  }
+  onMove() {
+    const pointerPosition = (event.type === 'mousemove') ? event.clientX : event.changedTouches[0].clientX;
+    const finalPosition = this.updatePosition(pointerPosition);
+    this.moveSlide(finalPosition);
+  }
+  onEnd() {
+    const movetype = (event.type === 'mouseup') ? 'mousemove' : 'touchmove';
+    this.wrapper.removeEventListener(movetype, this.onMove);
+    this.dist.finalPosition = this.dist.movePosition;
+  }
+  bindingEvents() {
+    this.onStart = this.onStart.bind(this);
+    this.onMove = this.onMove.bind(this);
+    this.onEnd = this.onEnd.bind(this);
+  }
+  addSlideEvents() {
+    this.wrapper.addEventListener('mousedown', this.onStart);
+    this.wrapper.addEventListener('touchstart', this.onStart);
+    this.wrapper.addEventListener('mouseup', this.onEnd);
+    this.wrapper.addEventListener('touchend', this.onEnd);
+  }
+  // Slide Configs
+  slidePosition(slide) { // Fix original offset position to put the current slide at window's center
+    const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
+    return margin - slide.offsetLeft;
+  }
+  slidesConfig() {
+    this.slideArray = [...this.slide.children].map((element) => {
+      const position = this.slidePosition(element);
+      return { element, position };
+    });
+    console.log(this.slideArray);
+  }
+  slideIndexNav(index) {
+    this.index = {
+      prev: index ? index - 1 : undefined, // 0 returns false
+      active: index,
+      next: index === this.slideArray.length - 1 ? undefined : index + 1, // Works for any array size for next pag.
+    };
+  }
+  changeSlide(index) {
+    const activeSlide = this.slideArray[index];
+    this.moveSlide(activeSlide.position);
+    this.slideIndexNav(index);
+    this.dist.finalPosition = activeSlide.position;// updates the position after changing
+  }
+  init() {
+    this.bindingEvents();
+    this.addSlideEvents();
+    this.slidesConfig();
+    return this;
+  }
 }
 /*
-
 _This class flow is:
 
 this.init() -> [it will bind events, then add all slide events. After this, it will cnfg slides and return the obj]
@@ -110,5 +108,5 @@ _After this, events will wait for either a touchstar or a mousedown, and they oc
                         _event the current position that user has stopped. Basically, it resets for the next use cycle]
 
 _The only function that are not used yet in the flow is__
-changeSlides() -> 
+changeSlides() ->
 */
