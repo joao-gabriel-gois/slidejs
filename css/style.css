@@ -19,11 +19,23 @@ img {
 
 .slide { 
    display: flex;
-   transform: translate3d(0px,0px,0px);
+}
+.slide:hover {
+   will-change: transform;
 }
 .slide li {
    margin: 0 20px;
    flex-shrink: 0;
    width: 80vw;
    max-width: 800px;
+   border-radius: 4px;
+   overflow: hidden;
+   box-shadow: 0 2px 4px rgba(0,0,0, .4);
+   opacity: .8;
+   transform: scale(.7);
+   transition: .5s;
+}
+.slide li.active {
+   opacity: 1;
+   transform: scale(1);
 }
