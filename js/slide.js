@@ -1,3 +1,5 @@
+import debounce from './debounce.js';
+
 export default class Slide {
   constructor(sld, wpr) {
     this.slide = document.querySelector(sld);
@@ -15,6 +17,7 @@ export default class Slide {
     this.dist.movement = (this.dist.startX - clientX) * 1.45;
     return this.dist.finalPosition - this.dist.movement;
   }
+  //Callbacks
   onStart(event) {
     let movetype;
     if (event.type === 'mousedown') {
@@ -40,27 +43,30 @@ export default class Slide {
     this.transition(true);
     this.changeSlideOnEnd();
   }
+  onResize() {//need debounce to stop adding many events
+    setTimeout(() => {
+      this.slidesConfig();
+      this.changeSlide(this.index.active);
+    }, 333);
+  }
   changeSlideOnEnd() {
     if (this.dist.movement > 120 && this.index.next !== undefined) {
       this.activeNextSlide();
     } else if (this.dist.movement < -120 && this.index.prev !== undefined) {
-        this.activePrevSlide();
+      this.activePrevSlide();
     } else {
       this.changeSlide(this.index.active);
     }
   }
-  bindingEvents() {
-    this.onStart = this.onStart.bind(this);
-    this.onMove = this.onMove.bind(this);
-    this.onEnd = this.onEnd.bind(this);
-  }
+  //Adding events
   addSlideEvents() {
+    window.addEventListener('resize', this.onResize);
     this.wrapper.addEventListener('mousedown', this.onStart);
     this.wrapper.addEventListener('touchstart', this.onStart);
     this.wrapper.addEventListener('mouseup', this.onEnd);
     this.wrapper.addEventListener('touchend', this.onEnd);
   }
-  // Slide Configs
+  // Slide Configs + Navigation Functions
   slidePosition(slide) { // Fix original offset position to put the current slide at window's center
     const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
     return margin - slide.offsetLeft;
@@ -70,7 +76,6 @@ export default class Slide {
       const position = this.slidePosition(element);
       return { element, position };
     });
-    this.slideIndexNav(0);//setting index prop.
   }
   slideIndexNav(index) {
     this.index = {
@@ -84,20 +89,32 @@ export default class Slide {
     this.moveSlide(activeSlide.position);
     this.slideIndexNav(index);
     this.dist.finalPosition = activeSlide.position;// updates the position after changing
+    this.toggleActiveClass();
   }
   activePrevSlide() {
     if (this.index.prev !== undefined)
-     this.changeSlide(this.index.prev);
+      this.changeSlide(this.index.prev);
   }
   activeNextSlide() {
     if (this.index.next !== undefined)
-     this.changeSlide(this.index.next);
+      this.changeSlide(this.index.next);
+  }
+  toggleActiveClass() {
+    this.slideArray.forEach(listItem => listItem.element.classList.remove('active'));
+    this.slideArray[this.index.active].element.classList.add('active');
+  }
+  bindingEvents() {
+    this.onStart = this.onStart.bind(this);
+    this.onMove = this.onMove.bind(this);
+    this.onEnd = this.onEnd.bind(this);
+    this.onResize = debounce(this.onResize.bind(this), 12);
   }
   init() {
     this.bindingEvents();
     this.transition(true);
     this.addSlideEvents();
     this.slidesConfig();
+    this.slideIndexNav(0);
     return this;
   }
 }
@@ -110,7 +127,7 @@ this.init() -> [it will bind events, then add all slide events. After this, it w
    slidesConfig -> [creates an array which each value is a obj within the respective slide element and its position\
       slidePosition -> [Make the calculation to set image in the center]
 
-_After this, events will wait for either a touchstar or a mousedown, and they occur, callbacks are activated, so:
+_After this, events will wait for either a touchstart or a mousedown, and they occur, callbacks are activated, so:
 
 'mousedown' / 'touchstart' events occurs
       onStart (1) -> [checks movetype(either touch/mousemove)* & applies the correct calc. to get startX for tha case, that is,_
@@ -118,7 +135,7 @@ _After this, events will wait for either a touchstar or a mousedown, and they oc
             'mousemove/'touchmove'events occurs
                      onMove (1.a) -> [check movetype* to apply the right clientX value to a pointer const, after this,_
                                      _uses updatePosition(1.a.i). After this, pass this updated value to moveSlide(1.a.i.I)]
-                           updatePosition (1.a.i)->[get the current the half of the differece between movedmouse/touch position_
+                           updatePosition (1.a.i)->[get the current half of the differece between movedmouse/touch position_
                                              _and the first click startX saved as this.startX prop by onStart method. With this va-
                                              _lue stored in const finalPosition, it calls moveSlide function passing it as argv]
                                  moveSlide (1.a.i.I) -> applies a dynamic value for X at translate3d css method based on value_
