@@ -36,7 +36,6 @@ img {
    transition: .5s;
 }
 .slide li.active {
-   margin: 8px;
    opacity: 1;
    transform: scale(1);
 }
