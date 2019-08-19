@@ -39,11 +39,10 @@ export class Slide {
   onEnd() {
     const movetype = (event.type === 'mouseup') ? 'mousemove' : 'touchmove';
     this.wrapper.removeEventListener(movetype, this.onMove);
-    this.dist.finalPosition = this.dist.movePosition;
     this.transition(true);
     this.changeSlideOnEnd();
   }
-  onResize() {//need debounce to stop adding many events
+  onResize() {//need debounce to stop adding many events  
     setTimeout(() => {
       this.slidesConfig();
       this.changeSlide(this.index.active);
