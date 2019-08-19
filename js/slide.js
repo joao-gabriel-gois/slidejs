@@ -43,7 +43,7 @@ export class Slide {
     this.transition(true);
     this.changeSlideOnEnd();
   }
-  onResize() {//need debounce to stop adding many events hiuashdaiuhdiaushdiuashdaiushdaiusdhaishdaishdiashdiasuhdaiush
+  onResize() {//need debounce to stop adding many events
     setTimeout(() => {
       this.slidesConfig();
       this.changeSlide(this.index.active);
