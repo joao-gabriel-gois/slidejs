@@ -1,5 +1,5 @@
 /* _Reset */
-body { margin: 0px; background-color: rgb(253, 232, 203)!important}
+body { margin: 0px; background-color: rgb(245, 255, 221)!important}
 
 ul {
    padding: 0px;
@@ -40,21 +40,56 @@ img {
    transform: scale(1);
 }
 .navigation {
-   width:6.2vw;
-   margin: .5em auto;
+   justify-content: center;
+   margin: .75em auto;
    display: flex;
 }
 .prev, .next {
    font-family: monospace;
    font-weight: bolder;
-   font-size: 1.2em;
-   border-radius: .18em;
+   font-size: 1.6em;
+   text-align: center;
+   border: double 2px #EA3;
+   border-radius: .8em;
    flex-shrink: 0;
-   transition: ease .4s all;
-   color: rgba(8,8,8,.9);
+   margin: 0 .3em;
+   transition: ease-out .5s;
+   background: rgb(248, 217, 217);
+   color: rgba(8,24,16,.9);
 }
 .prev:hover, .next:hover {
-   background-color: #aacefd;
-   color:rgba(256,256,256)
+   background-color:#D63; /* #aacefd -> a blue theme alternative*/
+   color:rgba(256,256,256); 
+   border: double 2px #eb9;
+}
+[data-control="slide"]{
+   display: flex;
+   justify-content: center;
+   margin-top: 1.25em;
+   flex-shrink: 0;
+}
+[data-control="slide"] li  {
+   display: block;
+   width: 16px;
+   height: 16px;
+   border-radius: 50%;
+   background:#EA3;
+   overflow: hidden;
+   margin: .56em;
+   transition: ease-out .54s;
+   border: solid 1px #FB7;
+}
+[data-control="slide"] li a {/*Turning character invisible*/
+   text-decoration: none;
+   font-family: 'Courier New', Courier, monospace;
+   margin:.15em;
+   padding:.01em auto;
+   font-weight: bold;
+   font-size:1.1em;
+   color:#EFAB3F;
    
+}
+[data-control="slide"] li.active, [data-control="slide"] li:hover {
+   background-color:#D63;
+   border: solid 1px #FB7;
 }

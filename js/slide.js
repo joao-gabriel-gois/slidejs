@@ -129,9 +129,20 @@ export class SlideNav extends Slide {
     this.prevElement.addEventListener(ev = 'click', this.activePrevSlide);
     this.nextElement.addEventListener(ev = 'click', this.activeNextSlide);
   }
-  initArrowNav(prev, next, ev) {
+  createControl() {
+    const control = document.createElement('li');
+    control.dataset.control = 'slide';
+    this.slideArray.forEach((item, index) => {
+      control.innerHTML += `<li><a href="#slide${index + 1}">${index + 1}</a></li>`;
+    });
+    this.wrapper.appendChild(control)
+  }
+
+  initSlideNav(prev, next, ev) {
+    this.init();
     this.addArrow(prev, next);
     this.addArrowEvents(ev);
+    this.createControl();
   }
 }
 /*
