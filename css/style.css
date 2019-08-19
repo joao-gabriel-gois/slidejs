@@ -1,5 +1,5 @@
 /* _Reset */
-body { margin: 0px; }
+body { margin: 0px; background-color: rgb(253, 232, 203)!important}
 
 ul {
    padding: 0px;
@@ -36,6 +36,26 @@ img {
    transition: .5s;
 }
 .slide li.active {
+   margin: 8px;
    opacity: 1;
    transform: scale(1);
+}
+.navigation {
+   width:6.2vw;
+   margin: .5em auto;
+   display: flex;
+}
+.prev, .next {
+   font-family: monospace;
+   font-weight: bolder;
+   font-size: 1.2em;
+   border-radius: .18em;
+   flex-shrink: 0;
+   transition: ease .4s all;
+   color: rgba(8,8,8,.9);
+}
+.prev:hover, .next:hover {
+   background-color: #acf;
+   color:rgba(256,256,256)
+   
 }
