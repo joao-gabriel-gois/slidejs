@@ -1,6 +1,6 @@
 import debounce from './debounce.js';
 
-export default class Slide {
+export class Slide {
   constructor(sld, wpr) {
     this.slide = document.querySelector(sld);
     this.wrapper = document.querySelector(wpr);
@@ -10,7 +10,7 @@ export default class Slide {
     this.slide.style.transition = active ? 'all 0.3s' : '';
   }
   moveSlide(distX) {
-    this.dist.movePosition = distX;
+    this.dist.movePosition = distX;//prop created while used
     this.slide.style.transform = `translate3d(${distX}px,0px,0px)`;
   }
   updatePosition(clientX) {
@@ -43,7 +43,7 @@ export default class Slide {
     this.transition(true);
     this.changeSlideOnEnd();
   }
-  onResize() {//need debounce to stop adding many events
+  onResize() {//need debounce to stop adding many events hiuashdaiuhdiaushdiuashdaiushdaiusdhaishdaishdiashdiasuhdaiush
     setTimeout(() => {
       this.slidesConfig();
       this.changeSlide(this.index.active);
@@ -92,7 +92,7 @@ export default class Slide {
     this.toggleActiveClass();
   }
   activePrevSlide() {
-    if (this.index.prev !== undefined)
+    if (this.index.prev !== undefined) 
       this.changeSlide(this.index.prev);
   }
   activeNextSlide() {
@@ -108,6 +108,8 @@ export default class Slide {
     this.onMove = this.onMove.bind(this);
     this.onEnd = this.onEnd.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 12);
+    this.activePrevSlide = this.activePrevSlide.bind(this);
+    this.activeNextSlide = this.activeNextSlide.bind(this);
   }
   init() {
     this.bindingEvents();
@@ -116,6 +118,21 @@ export default class Slide {
     this.slidesConfig();
     this.slideIndexNav(0);
     return this;
+  }
+}
+
+export class SlideNav extends Slide {
+  addArrow(prev, next) {
+    this.prevElement = document.querySelector(prev);
+    this.nextElement = document.querySelector(next);
+  }
+  addArrowEvents(ev) {
+    this.prevElement.addEventListener(ev = 'click', this.activePrevSlide);
+    this.nextElement.addEventListener(ev = 'click', this.activeNextSlide);
+  }
+  initArrowNav(prev, next, ev) {
+    this.addArrow(prev, next);
+    this.addArrowEvents(ev);
   }
 }
 /*
