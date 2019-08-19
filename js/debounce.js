@@ -8,4 +8,3 @@ export default function debounce(callback, delay) {
     }, delay);
   };
 }
-//imported function, did not created it
