@@ -47,10 +47,10 @@ img {
 .prev, .next {
    font-family: monospace;
    font-weight: bolder;
-   font-size: 1.6em;
+   font-size: 1.2em;
    text-align: center;
    border: double 2px #EA3;
-   border-radius: .8em;
+   border-radius: .6em;
    flex-shrink: 0;
    margin: 0 .3em;
    transition: ease-out .5s;
@@ -58,7 +58,7 @@ img {
    color: rgba(8,24,16,.9);
 }
 .prev:hover, .next:hover {
-   background-color:#D63; /* #aacefd -> a blue theme alternative*/
+   background-color:#E78627; /* #aacefd -> a blue theme alternative*/
    color:rgba(256,256,256); 
    border: double 2px #eb9;
 }
@@ -75,21 +75,19 @@ img {
    border-radius: 50%;
    background:#EA3;
    overflow: hidden;
-   margin: .56em;
+   margin: .36em;
    transition: ease-out .54s;
    border: solid 1px #FB7;
 }
 [data-control="slide"] li a {/*Turning character invisible*/
    text-decoration: none;
    font-family: 'Courier New', Courier, monospace;
-   margin:.15em;
-   padding:.01em auto;
-   font-weight: bold;
-   font-size:1.1em;
-   color:#EFAB3F;
-   
+   margin: .06em .18em;
+   font-weight: bolder;
+   display: block;
+   font-size: .9em;
+   color: #EFAB3F;
 }
 [data-control="slide"] li.active, [data-control="slide"] li:hover {
    background-color:#D63;
-   border: solid 1px #FB7;
 }

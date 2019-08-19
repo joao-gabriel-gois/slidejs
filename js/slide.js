@@ -5,6 +5,7 @@ export class Slide {
     this.slide = document.querySelector(sld);
     this.wrapper = document.querySelector(wpr);
     this.dist = { finalPosition: 0, startX: 0, movement: 0 };// movement parameters
+    this.changeEvent = new Event('changeEvent');
   }
   transition(active) {
     this.slide.style.transition = active ? 'all 0.3s' : '';
@@ -89,14 +90,29 @@ export class Slide {
     this.slideIndexNav(index);
     this.dist.finalPosition = activeSlide.position;// updates the position after changing
     this.toggleActiveClass();
+    this.wrapper.dispatchEvent(this.changeEvent);
   }
   activePrevSlide() {
-    if (this.index.prev !== undefined) 
+    if (this.index.prev !== undefined) {
       this.changeSlide(this.index.prev);
+      /*if (this.controlElement) { my solution before know bout Y for subclass SlideNav
+        [...this.controlElement].forEach(child => {
+          child.classList.remove('active');
+        });
+        [...this.controlElement][this.index.active].classList.add('active');
+      }*/
+    }
   }
   activeNextSlide() {
-    if (this.index.next !== undefined)
-      this.changeSlide(this.index.next);
+    if (this.index.next !== undefined) {
+      this.changeSlide(this.index.next)
+      /*if (this.controlElement) { my solution before know about X for sublcass SlideNav
+        [...this.controlElement].forEach(child => {
+          child.classList.remove('active');
+        });
+        [...this.controlElement][this.index.active].classList.add('active');
+      }*/
+    }
   }
   toggleActiveClass() {
     this.slideArray.forEach(listItem => listItem.element.classList.remove('active'));
@@ -127,22 +143,44 @@ export class SlideNav extends Slide {
   }
   addArrowEvents(ev) {
     this.prevElement.addEventListener(ev = 'click', this.activePrevSlide);
-    this.nextElement.addEventListener(ev = 'click', this.activeNextSlide);
+    this.nextElement.addEventListener(ev = 'click', this.activeNextSlide); 
   }
   createControl() {
-    const control = document.createElement('li');
+    const control = document.createElement('ul');
     control.dataset.control = 'slide';
     this.slideArray.forEach((item, index) => {
       control.innerHTML += `<li><a href="#slide${index + 1}">${index + 1}</a></li>`;
     });
-    this.wrapper.appendChild(control)
+    this.wrapper.appendChild(control);
+    return control;
   }
-
+  addControlEvent(item, index) {
+    item.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.changeSlide(index);
+    });
+    this.wrapper.addEventListener('changeEvent', this.activeControlItem);
+  }
+  activeControlItem() {
+    this.controlArray.forEach(child => child.classList.remove('active'));
+    this.controlArray[this.index.active].classList.add('active');
+  }
+  addControl() {
+    const control = this.createControl();
+    this.controlArray = [...control.children];
+    this.activeControlItem();
+    this.controlArray.forEach(this.addControlEvent);
+  }
+  bindingCtrlEvents() {
+    this.addControlEvent = this.addControlEvent.bind(this);
+    this.activeControlItem = this.activeControlItem.bind(this);
+  }
   initSlideNav(prev, next, ev) {
     this.init();
     this.addArrow(prev, next);
-    this.addArrowEvents(ev);
-    this.createControl();
+    this.addArrowEvents();
+    this.bindingCtrlEvents();
+    this.addControl();
   }
 }
 /*
