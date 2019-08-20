@@ -92,10 +92,10 @@ export class Slide {
     this.toggleActiveClass();
     this.wrapper.dispatchEvent(this.changeEvent);
   }
-  activePrevSlide() {
+  activePrevSlide(event) {
     if (this.index.prev !== undefined) {
       this.changeSlide(this.index.prev);
-      /*if (this.controlElement) { my solution before know bout Y for subclass SlideNav
+      /*if (this.controlElement) { my solution before know bout changeEvent for subclass SlideNav
         [...this.controlElement].forEach(child => {
           child.classList.remove('active');
         });
@@ -103,10 +103,10 @@ export class Slide {
       }*/
     }
   }
-  activeNextSlide() {
+  activeNextSlide(event) {
     if (this.index.next !== undefined) {
       this.changeSlide(this.index.next)
-      /*if (this.controlElement) { my solution before know about X for sublcass SlideNav
+      /*if (this.controlElement) { my solution before know about changeEvent for sublcass SlideNav
         [...this.controlElement].forEach(child => {
           child.classList.remove('active');
         });
@@ -141,9 +141,9 @@ export class SlideNav extends Slide {
     this.prevElement = document.querySelector(prev);
     this.nextElement = document.querySelector(next);
   }
-  addArrowEvents(ev) {
-    this.prevElement.addEventListener(ev = 'click', this.activePrevSlide);
-    this.nextElement.addEventListener(ev = 'click', this.activeNextSlide); 
+  addArrowEvents() {
+    this.prevElement.addEventListener('click', this.activePrevSlide);
+    this.nextElement.addEventListener('click', this.activeNextSlide); 
   }
   createControl() {
     const control = document.createElement('ul');
@@ -165,8 +165,8 @@ export class SlideNav extends Slide {
     this.controlArray.forEach(child => child.classList.remove('active'));
     this.controlArray[this.index.active].classList.add('active');
   }
-  addControl() {
-    const control = this.createControl();
+  addControl(customEvent) {
+    const control = document.querySelector(customEvent) || this.createControl();
     this.controlArray = [...control.children];
     this.activeControlItem();
     this.controlArray.forEach(this.addControlEvent);
@@ -175,12 +175,12 @@ export class SlideNav extends Slide {
     this.addControlEvent = this.addControlEvent.bind(this);
     this.activeControlItem = this.activeControlItem.bind(this);
   }
-  initSlideNav(prev, next, ev) {
+  initSlideNav(prev, next, custom) {
     this.init();
     this.addArrow(prev, next);
     this.addArrowEvents();
     this.bindingCtrlEvents();
-    this.addControl();
+    this.addControl(custom);
   }
 }
 /*
