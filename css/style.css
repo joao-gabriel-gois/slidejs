@@ -1,5 +1,5 @@
 /* _Reset */
-body { margin: 0px; background-color: rgb(245, 255, 221)!important}
+body { margin: 0px; background-color: rgba(72,103,54, .36)!important}
 
 ul {
    padding: 0px;
@@ -32,35 +32,36 @@ img {
    overflow: hidden;
    box-shadow: 0 2px 4px rgba(0,0,0, .4);
    opacity: .8;
-   transform: scale(.7);
-   transition: .5s;
+   transform: scale(.8);
+   transition: .4s;
 }
 .slide li.active {
    opacity: 1;
    transform: scale(1);
 }
 .navigation {
-   justify-content: center;
+   justify-content: space-around;
    margin: .75em auto;
    display: flex;
 }
-.prev, .next {
-   font-family: monospace;
-   font-weight: bolder;
-   font-size: 1.2em;
-   text-align: center;
-   border: double 2px #EA3;
-   border-radius: .6em;
-   flex-shrink: 0;
-   margin: 0 .3em;
-   transition: ease-out .5s;
-   background: rgb(248, 217, 217);
-   color: rgba(8,24,16,.9);
+.navigation button {
+   border:none;
+   cursor: pointer;
+   color:black;
+   width: 25px; 
+   height:25px;
+   border-radius: 18%;
+   transition: ease-out .36s;
+   background: #334 url('../img/arrow.svg') center center no-repeat;
+   -webkit-appearance: none;
+   -moz-appearance: none;
 }
+.prev {
+   transform: rotate(180deg);
+} 
 .prev:hover, .next:hover {
-   background-color:#E78627; /* #aacefd -> a blue theme alternative*/
-   color:rgba(256,256,256); 
-   border: double 2px #eb9;
+   background-color:rgba(230, 143, 45, .81); /* #aacefd -> a blue theme alternative*/
+   color:#fdb;
 }
 [data-control="slide"]{
    display: flex;
@@ -90,4 +91,28 @@ img {
 }
 [data-control="slide"] li.active, [data-control="slide"] li:hover {
    background-color:#D63;
+}
+.custom-control {
+   display: flex;
+   justify-content: center;
+   margin-top:27px;
+   flex-wrap: wrap;
+}
+.custom-control li {
+   cursor: pointer;
+   opacity: .8;
+   transform: scale(.8);
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   overflow: hidden;/*without it border radius does not work*/
+   margin: -10px .54em;
+   margin-bottom: 21px;
+   box-shadow: rgba(0,0,0, .5);
+   transition: ease-out .36s;
+}
+.custom-control li.active, .custom-control li:hover {
+   opacity: 1;
+   transform: scale(1);
+   border: 2.1px solid rgba(221, 162, 70,.96);
 }
